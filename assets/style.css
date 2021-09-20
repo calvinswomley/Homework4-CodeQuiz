@@ -1,0 +1,68 @@
+* {
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+main {
+    justify-content: space-between;
+}
+
+#startquiz {
+    position:absolute;
+    visibility:visible;
+    display: flex;
+    flex-wrap: wrap;
+    width: 60%;
+    flex-direction: column;
+}
+#question1 {
+    position: absolute;
+    visibility:hidden;
+}
+
+#question2 {
+    position: absolute;
+    visibility:hidden;
+}
+
+#question3 {
+    position: absolute;
+    visibility:hidden;
+}
+#question4 {
+    position: absolute;
+    visibility:hidden;
+}
+#question5 {
+    position: absolute;
+    visibility:hidden;
+}
+#yourscore {
+    position: absolute;
+    visibility:hidden;
+}
+#highscores {
+    position: absolute;
+    visibility:hidden;
+}
+
+
+
+
+header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
+/*.highscorelink {
+    text-align: left;
+}
+.timeleft {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+*/
+
