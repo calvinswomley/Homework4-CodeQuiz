@@ -1,11 +1,14 @@
 //scores and initials
-var score = 0;
+var score;
 var initials = document.querySelector("#initials");
 var time = document.querySelector(".timeleft")
 var secondsLeft = 60;
 var answeredQuestions = 0;
 var finalScore = document.querySelector("#finalScore");
-
+var participantScores = {
+    storedInitials: [],
+    storedScore: []
+};
 
 
 //time function
@@ -202,25 +205,66 @@ e4.addEventListener("click", function() {
     yourscore.setAttribute("style", "visibility: visible;");
     answeredQuestions++;
 });
-//Submit initials listener
-submitinitials.addEventListener("click", function(event) {
-    event.preventDefault();
-    var participant = {
-        initials: initials.value,
-        score: score.value,
-    };
-    localStorage.setItem("participant", JSON.stringify(participant));
-    
-    yourscore.setAttribute("style", "visibility: hidden;");
-    highscores.setAttribute("style", "visibility: visible;");
-});
 //Back to Start and Clear Scores listener
 backtostart.addEventListener("click", function() {
     highscores.setAttribute("style", "visibility: hidden;");
     startquiz.setAttribute("style", "visibility: visible;");
+    secondsLeft = 60;
+    answeredQuestions = 0;   
 });
 
 
+//Display High Scores
+var highScoresList = document.querySelector("#high-scores-list");
+
+function displayHighScores() {
+    highScoresList.innerHTML = "";
+    var storedParticipantScores = JSON.parse(localStorage.getItem("participantScores"));
+    for (var i = 0; i < storedParticipantScores.storedScore.length; i++) {
+        var partInitials = storedParticipantScores.storedInitials[i];
+        var partScore = storedParticipantScores.storedScore[i];
+
+        var listItem = document.createElement("li");
+        listItem.textContent = partInitials + ":  " + partScore;
+        listItem.setAttribute("data-index", i);
+
+        highScoresList.appendChild(listItem);
+    }
+}
+
+//Submit initials and score listener
+submitinitials.addEventListener("click", function(event) {
+    event.preventDefault();
+    getScoresFromStorage()
+});
+
+function getScoresFromStorage() {
+        var storedParticipantScores = JSON.parse(localStorage.getItem("participantScores"));
+        if (storedParticipantScores !== null) {
+            participantScores = storedParticipantScores;
+        }
+         //storedParticipantScores = JSON.parse(localStorage.getItem("participantScores"));
+    
+        participantScores.storedInitials.push(initials.value);
+        participantScores.storedScore.push(score);
+        localStorage.setItem("participantScores", JSON.stringify(participantScores));
+        yourscore.setAttribute("style", "visibility: hidden;");
+        highscores.setAttribute("style", "visibility: visible;");
+
+        document.querySelector('#initials').value = '';
+        displayHighScores();
+    }
+
+
+//Clear Scores button
+clearscores.addEventListener("click", function() {
+    localStorage.clear();
+    participantScores = {
+        storedInitials: [],
+        storedScore: []
+    };
+    document.getElementById("high-scores-list").innerHTML = "";
+});
 
 
 
