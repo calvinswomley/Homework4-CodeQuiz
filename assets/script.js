@@ -1,6 +1,38 @@
 //scores and initials
-var score = "";
+var score = 0;
+var initials = document.querySelector("#initials");
+var time = document.querySelector(".timeleft")
+var secondsLeft = 60;
+var answeredQuestions = 0;
+var finalScore = document.querySelector("#finalScore");
 
+
+
+//time function
+function setTimer() {
+    var timerInterval = setInterval(function() {
+        secondsLeft--;
+        time.textContent = "Time Remaining:" + secondsLeft;
+        if (answeredQuestions >= 5) {
+            score += secondsLeft;
+            clearInterval(timerInterval);
+        }
+        if(secondsLeft === 0) {
+            score += secondsLeft;
+            clearInterval(timerInterval);
+            
+            question1.setAttribute("style", "visibility: hidden;");
+            question2.setAttribute("style", "visibility: hidden;");
+            question3.setAttribute("style", "visibility: hidden;");
+            question4.setAttribute("style", "visibility: hidden;");
+            question5.setAttribute("style", "visibility: hidden;");
+            yourscore.setAttribute("style", "visibility: visible;");
+        }
+        finalScore.textContent = "Your Score: " + secondsLeft;
+        score = secondsLeft;
+    }, 1000);
+    
+}
 
 
 
@@ -42,104 +74,143 @@ var e4 = document.querySelector("#e4");
 var submitinitials = document.querySelector("#submitinitials");
 var backtostart = document.querySelector("#backtostart");
 var clearscores = document.querySelector("#clearscores");
-//var falseAnswers = document.querySelectorAll(".false");
-//var trueAnswers = document.querySelectorAll(".true");
+
 
 //Listener and function for transition 1
 startButt.addEventListener("click", function() {
     startquiz.setAttribute("style", "visibility: hidden;");
     question1.setAttribute("style", "visibility: visible;");
+    setTimer();
 });
 //Listener and function for transition 2
 a1.addEventListener("click", function() {
     question1.setAttribute("style", "visibility: hidden;");
     question2.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
+    secondsLeft -= 10;
 });
 a2.addEventListener("click", function() {
     question1.setAttribute("style", "visibility: hidden;");
     question2.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
+    secondsLeft -= 10;
 });
 a3.addEventListener("click", function() {
     question1.setAttribute("style", "visibility: hidden;");
     question2.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
 });
 a4.addEventListener("click", function() {
     question1.setAttribute("style", "visibility: hidden;");
     question2.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
+    secondsLeft -= 10;
 });
 //Listener and function for transition 3
 b1.addEventListener("click", function() {
     question2.setAttribute("style", "visibility: hidden;");
     question3.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
+    secondsLeft -= 10;
 });
 b2.addEventListener("click", function() {
     question2.setAttribute("style", "visibility: hidden;");
     question3.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
+    secondsLeft -= 10;
 });
 b3.addEventListener("click", function() {
     question2.setAttribute("style", "visibility: hidden;");
     question3.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
 });
 b4.addEventListener("click", function() {
     question2.setAttribute("style", "visibility: hidden;");
     question3.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
+    secondsLeft -= 10;
 });
 //Listener and function for transition 4
 c1.addEventListener("click", function() {
     question3.setAttribute("style", "visibility: hidden;");
     question4.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
+    secondsLeft -= 10;
 });
 c2.addEventListener("click", function() {
     question3.setAttribute("style", "visibility: hidden;");
     question4.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
+    secondsLeft -= 10;
 });
 c3.addEventListener("click", function() {
     question3.setAttribute("style", "visibility: hidden;");
     question4.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
+    secondsLeft -= 10;
 });
 c4.addEventListener("click", function() {
     question3.setAttribute("style", "visibility: hidden;");
     question4.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
 });
 //Listener and function for transition 5
 d1.addEventListener("click", function() {
     question4.setAttribute("style", "visibility: hidden;");
     question5.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
+    secondsLeft -= 10;
 });
 d2.addEventListener("click", function() {
     question4.setAttribute("style", "visibility: hidden;");
     question5.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
+    secondsLeft -= 10;
 });
 d3.addEventListener("click", function() {
     question4.setAttribute("style", "visibility: hidden;");
     question5.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
 });
 d4.addEventListener("click", function() {
     question4.setAttribute("style", "visibility: hidden;");
     question5.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
+    secondsLeft -= 10;
 });
 //Listener and function for transition 6
 e1.addEventListener("click", function() {
     question5.setAttribute("style", "visibility: hidden;");
     yourscore.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
+    secondsLeft -= 10;
 });
 e2.addEventListener("click", function() {
     question5.setAttribute("style", "visibility: hidden;");
     yourscore.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
+    secondsLeft -= 10;
 });
 e3.addEventListener("click", function() {
     question5.setAttribute("style", "visibility: hidden;");
     yourscore.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
+    secondsLeft -= 10;
 });
 e4.addEventListener("click", function() {
     question5.setAttribute("style", "visibility: hidden;");
     yourscore.setAttribute("style", "visibility: visible;");
+    answeredQuestions++;
 });
 //Submit initials listener
-submitinitials.addEventListener("click", function() {
-    var initials = document.getElementById("submitinitials");
-    localStorage.setItem("Initials", initials)
-    localStorage.setItem("Score", score)
+submitinitials.addEventListener("click", function(event) {
+    event.preventDefault();
+    var participant = {
+        initials: initials.value,
+        score: score.value,
+    };
+    localStorage.setItem("participant", JSON.stringify(participant));
+    
     yourscore.setAttribute("style", "visibility: hidden;");
     highscores.setAttribute("style", "visibility: visible;");
 });
@@ -148,10 +219,6 @@ backtostart.addEventListener("click", function() {
     highscores.setAttribute("style", "visibility: hidden;");
     startquiz.setAttribute("style", "visibility: visible;");
 });
-//Time penalty function
-//falseAnswers.addEventListener("click", function wronganswer() {
-    //subtract 10s from timer
-//});
 
 
 
@@ -160,10 +227,4 @@ backtostart.addEventListener("click", function() {
 //Storing score and initials to browser as object
 /* Here is a helpful link for this section:  https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_onclick_copy  */
 
-//Go back button listener on highscores page
-
-
-//Clear scores listener
-
-//High scores hyperlinked text button in upper left that is clickable on any screen (except on high scores screen)
 
